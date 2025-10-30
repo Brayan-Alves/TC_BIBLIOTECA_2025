@@ -1,0 +1,4 @@
+Requisitos:
+Cadastrar Clientes, Funcionários, Gerentes, Livros
+Gerenciar Clientes, Funcionários, Gerentes, Livros
+Fazer Empréstimos e Devoluções
