@@ -1,0 +1,29 @@
+package ifpr.edu.br.biblioteca.model.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConnectionFactory {
+    private static Connection conexao;
+
+    private ConnectionFactory(){
+    }
+
+    public static Connection getConnection(){
+        try {
+            if(conexao == null){
+                //jdbc:gdbd://ip do servidor do BD:porta/database
+                String url = "jdbc:mysql://127.0.0.1:3306/mydb";
+                String user = "aluno";
+                String password = "aluno";
+                conexao = DriverManager.getConnection(url, user, password);
+                System.out.println("conectado ao banco com sucesso");
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return conexao;
+    }
+}
