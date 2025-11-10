@@ -3,7 +3,7 @@ package ifpr.edu.br.biblioteca.model;
 public class Emprestimo {
     private int id;
     private Livro livro;
-    private Clientes cliente;
+    private Cliente cliente;
     public Emprestimo() {
     }
     public int getId() {
@@ -18,10 +18,10 @@ public class Emprestimo {
     public void setLivro(Livro livro) {
         this.livro = livro;
     }
-    public Clientes getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
-    public void setCliente(Clientes cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 }

@@ -1,9 +1,9 @@
 package ifpr.edu.br.biblioteca.model;
 
-public class Clientes {
+public class Cliente {
     private int id;
     private Pessoa pessoa;
-    public Clientes() {
+    public Cliente() {
     }
     public int getId() {
         return id;

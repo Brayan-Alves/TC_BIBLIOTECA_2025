@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8mb3 ;
 USE `mydb` ;
 
 -- -----------------------------------------------------
@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`autor` (
   `id_autor` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_autor`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -31,7 +33,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`biblioteca` (
   `id_biblioteca` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_biblioteca`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -43,10 +46,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`pessoa` (
   `cpf` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `senha` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_pessoa`),
   UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  PRIMARY KEY (`id_pessoa`))
-ENGINE = InnoDB;
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -59,10 +63,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`cliente` (
   INDEX `fk_cliente_pessoa1_idx` (`id_pessoa` ASC) VISIBLE,
   CONSTRAINT `fk_cliente_pessoa1`
     FOREIGN KEY (`id_pessoa`)
-    REFERENCES `mydb`.`pessoa` (`id_pessoa`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `mydb`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -72,7 +75,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`editora` (
   `id_editora` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_editora`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -81,29 +85,19 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`livro` (
   `id_livro` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
-  `id_autor` INT NOT NULL,
   `id_editora` INT NOT NULL,
   `biblioteca_id_biblioteca` INT NOT NULL,
   PRIMARY KEY (`id_livro`),
-  INDEX `fk_livro_autor_idx` (`id_autor` ASC) VISIBLE,
   INDEX `fk_livro_editora1_idx` (`id_editora` ASC) VISIBLE,
   INDEX `fk_livro_biblioteca1_idx` (`biblioteca_id_biblioteca` ASC) VISIBLE,
-  CONSTRAINT `fk_livro_autor`
-    FOREIGN KEY (`id_autor`)
-    REFERENCES `mydb`.`autor` (`id_autor`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_livro_editora1`
-    FOREIGN KEY (`id_editora`)
-    REFERENCES `mydb`.`editora` (`id_editora`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_livro_biblioteca1`
     FOREIGN KEY (`biblioteca_id_biblioteca`)
-    REFERENCES `mydb`.`biblioteca` (`id_biblioteca`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `mydb`.`biblioteca` (`id_biblioteca`),
+  CONSTRAINT `fk_livro_editora1`
+    FOREIGN KEY (`id_editora`)
+    REFERENCES `mydb`.`editora` (`id_editora`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -116,17 +110,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`emprestimo` (
   PRIMARY KEY (`id_emprestimo`),
   INDEX `fk_emprestimo_livro1_idx` (`livro_id_livro` ASC) VISIBLE,
   INDEX `fk_emprestimo_cliente1_idx` (`cliente_id_cliente` ASC) VISIBLE,
-  CONSTRAINT `fk_emprestimo_livro1`
-    FOREIGN KEY (`livro_id_livro`)
-    REFERENCES `mydb`.`livro` (`id_livro`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_emprestimo_cliente1`
     FOREIGN KEY (`cliente_id_cliente`)
-    REFERENCES `mydb`.`cliente` (`id_cliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `mydb`.`cliente` (`id_cliente`),
+  CONSTRAINT `fk_emprestimo_livro1`
+    FOREIGN KEY (`livro_id_livro`)
+    REFERENCES `mydb`.`livro` (`id_livro`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -141,15 +132,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`funcionario` (
   INDEX `fk_funcionario_pessoa1_idx` (`id_pessoa` ASC) VISIBLE,
   CONSTRAINT `fk_funcionario_biblioteca1`
     FOREIGN KEY (`id_biblioteca`)
-    REFERENCES `mydb`.`biblioteca` (`id_biblioteca`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `mydb`.`biblioteca` (`id_biblioteca`),
   CONSTRAINT `fk_funcionario_pessoa1`
     FOREIGN KEY (`id_pessoa`)
-    REFERENCES `mydb`.`pessoa` (`id_pessoa`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `mydb`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -164,15 +152,35 @@ CREATE TABLE IF NOT EXISTS `mydb`.`gerente` (
   INDEX `fk_gerente_pessoa1_idx` (`id_pessoa` ASC) VISIBLE,
   CONSTRAINT `fk_gerente_biblioteca1`
     FOREIGN KEY (`id_biblioteca`)
-    REFERENCES `mydb`.`biblioteca` (`id_biblioteca`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `mydb`.`biblioteca` (`id_biblioteca`),
   CONSTRAINT `fk_gerente_pessoa1`
     FOREIGN KEY (`id_pessoa`)
-    REFERENCES `mydb`.`pessoa` (`id_pessoa`)
+    REFERENCES `mydb`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`autor_livro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`autor_livro` (
+  `id_autor` INT NOT NULL,
+  `id_livro` INT NOT NULL,
+  PRIMARY KEY (`id_autor`, `id_livro`),
+  INDEX `fk_autor_has_livro_livro1_idx` (`id_livro` ASC) VISIBLE,
+  INDEX `fk_autor_has_livro_autor1_idx` (`id_autor` ASC) VISIBLE,
+  CONSTRAINT `fk_autor_has_livro_autor1`
+    FOREIGN KEY (`id_autor`)
+    REFERENCES `mydb`.`autor` (`id_autor`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_autor_has_livro_livro1`
+    FOREIGN KEY (`id_livro`)
+    REFERENCES `mydb`.`livro` (`id_livro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

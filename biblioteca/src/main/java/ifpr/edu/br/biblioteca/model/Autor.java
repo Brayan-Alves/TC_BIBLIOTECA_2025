@@ -4,7 +4,7 @@ public class Autor{
     private int id;
     private String nome;
 
-    public Autor(String nome) {
+    public Autor() {
     }
     
     public String getNome() {
