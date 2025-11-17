@@ -1,7 +1,6 @@
 package ifpr.edu.br.biblioteca.controller;
 
 import ifpr.edu.br.biblioteca.model.Cliente;
-import ifpr.edu.br.biblioteca.model.Pessoa;
 import ifpr.edu.br.biblioteca.model.dao.ClienteDAO;
 
 public class ClienteController {
