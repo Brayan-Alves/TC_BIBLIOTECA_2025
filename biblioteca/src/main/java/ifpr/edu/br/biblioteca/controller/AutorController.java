@@ -13,7 +13,7 @@ public class AutorController {
 
     public void cadastrarAutor(Autor autor){
         if(autor.getNome() == null || autor.getNome().isBlank()){
-            System.out.println("Nome não pode ser vazio!");
+            System.out.println("Nome não pode ser vazio!(Autor)");
             return;
         }
 

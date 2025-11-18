@@ -12,7 +12,7 @@ public class BibliotecaController {
 
     public void cadastrarBiblioteca(Biblioteca biblioteca){
         if(biblioteca.getNome() == null || biblioteca.getNome().isBlank()){
-            System.out.println("Nome não pode ser vazio!");
+            System.out.println("Nome não pode ser vazio!(Biblioteca)");
             return;
         }
 

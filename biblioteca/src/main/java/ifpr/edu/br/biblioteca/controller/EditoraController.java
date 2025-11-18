@@ -12,7 +12,7 @@ public class EditoraController {
 
     public void cadastrarEditora(Editora editora){
         if(editora.getNome() == null || editora.getNome().isBlank()){
-            System.out.println("Nome não pode ser vazio!");
+            System.out.println("Nome não pode ser vazio!(Editora)");
             return;
         }
 

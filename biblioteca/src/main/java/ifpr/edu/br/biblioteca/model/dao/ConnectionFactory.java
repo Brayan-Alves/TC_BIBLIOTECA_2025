@@ -14,11 +14,10 @@ public class ConnectionFactory {
         try {
             if(conexao == null){
                 //jdbc:gdbd://ip do servidor do BD:porta/database
-                String url = "jdbc:mysql://127.0.0.1:3306/mydb";
+                String url = "jdbc:mysql://localhost:3306/mydb";
                 String user = "aluno";
                 String password = "aluno";
                 conexao = DriverManager.getConnection(url, user, password);
-                System.out.println("conectado ao banco com sucesso");
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block

@@ -13,7 +13,6 @@ public class EmprestimoController {
     }
 
     public void cadastrarEmprestimo(Emprestimo emprestimo, Livro livro, Cliente cliente){
-
         dao.salvarEmprestimo(emprestimo, livro, cliente);
     }
 }
