@@ -3,12 +3,14 @@ package ifpr.edu.br.biblioteca.controller;
 import ifpr.edu.br.biblioteca.model.Cliente;
 import ifpr.edu.br.biblioteca.model.Pessoa;
 import ifpr.edu.br.biblioteca.model.dao.ClienteDAO;
+import ifpr.edu.br.biblioteca.model.dao.PessoaDAO;
 
 public class ClienteController {
-    private ClienteDAO dao;
+    private ClienteDAO daoC;
+    private PessoaDAO daoP;
 
     public ClienteController(){
-        this.dao = new ClienteDAO();
+        this.daoC = new ClienteDAO();
     }
 
     public void cadastrarCliente(Cliente cliente, Pessoa pessoa){
@@ -26,6 +28,10 @@ public class ClienteController {
             return;
         }
 
-        dao.salvarCliente(cliente, pessoa);
+        daoC.salvarCliente(cliente, pessoa);
+    }
+
+    public Pessoa logarCliente(String email, String senha){
+        return daoP.login(email, senha);
     }
 }

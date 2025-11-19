@@ -9,8 +9,8 @@ import java.util.List;
 import ifpr.edu.br.biblioteca.model.Biblioteca;
 
 public class BibliotecaDAO {
-    
-    public void salvarBiblioteca(Biblioteca biblioteca){
+
+    public void salvarBiblioteca(Biblioteca biblioteca) {
         String sqlBiblioteca = "INSERT INTO biblioteca (nome) VALUES (?)";
         Connection con = ConnectionFactory.getConnection();
         try {
@@ -21,19 +21,18 @@ public class BibliotecaDAO {
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
-        } 
+        }
     }
 
-    public List<Biblioteca> select() {
+    public List<Biblioteca> mostrarBibliotecas() {
         List<Biblioteca> lista = new ArrayList<>();
 
         String sql = "SELECT id_biblioteca, nome FROM biblioteca";
-        Connection con = ConnectionFactory.getConnection();
 
         try (
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-        ) {
+                Connection con = ConnectionFactory.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
                 Biblioteca b = new Biblioteca();
                 b.setId(rs.getInt("id_biblioteca"));
@@ -43,6 +42,7 @@ public class BibliotecaDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return lista;
     }
 
