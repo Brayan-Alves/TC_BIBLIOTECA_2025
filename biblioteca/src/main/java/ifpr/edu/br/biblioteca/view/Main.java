@@ -1,10 +1,8 @@
 package ifpr.edu.br.biblioteca.view;
 
 import java.util.Scanner;
-import java.util.List;
 
 import ifpr.edu.br.biblioteca.controller.AutorController;
-import ifpr.edu.br.biblioteca.controller.BibliotecaController;
 import ifpr.edu.br.biblioteca.controller.ClienteController;
 import ifpr.edu.br.biblioteca.controller.EditoraController;
 import ifpr.edu.br.biblioteca.controller.EmprestimoController;
@@ -12,10 +10,8 @@ import ifpr.edu.br.biblioteca.controller.FuncionarioController;
 import ifpr.edu.br.biblioteca.controller.GerenteController;
 import ifpr.edu.br.biblioteca.controller.LivroController;
 
-import ifpr.edu.br.biblioteca.model.dao.BibliotecaDAO;
+import ifpr.edu.br.biblioteca.model.Cliente;
 
-import ifpr.edu.br.biblioteca.model.Biblioteca;
-import ifpr.edu.br.biblioteca.model.Pessoa;
 public class Main {
     public static Scanner LER = new Scanner(System.in);
 
@@ -23,111 +19,71 @@ public class Main {
         iniciarControllers();
         while (true) {
             imprimirCabecalho();
-            mostrarMenuPrincipal();
+            int x = LER.nextInt();
+            if (x == 1) {
+                criarConta();
+            } else if (x == 2) {
+                fazerLogin();
+                
+            } else {
+                System.out.println("Finalizando...");
+                esperar2Segundos();
+                System.exit(0);
+            }
+
         }
-        
-        
-        
+
     }
 
-    public static void criarBiblioteca(){
+    public static void fazerLogin() {
         limparBuffer();
-        Biblioteca biblioteca = new Biblioteca();
-        System.out.println("Digite o nome da Biblioteca:");
-        biblioteca.setNome(LER.nextLine());
         limparTerminal();
-        controllerBiblioteca.cadastrarBiblioteca(biblioteca);
-    }
-
-    public static void menuDeLogin(Biblioteca biblioteca){
+        System.out.print("Email: ");
+        String email = LER.next();
+        System.out.print("Senha: ");
+        String senha = LER.next();
+        System.out.println();
         limparTerminal();
-        System.out.println("Bem-Vindo á " + biblioteca.getNome() + "!\n");
-        System.out.println("O que deseja?\n\n1.Fazer Login\n2.Criar Conta\n3.Voltar\n4.Sair");
-        int x = LER.nextInt();
-        if(x == 1){
-            fazerLogin();
-        }else if(x == 2){
-            //criarConta();
-        }else if(x == 3){
-            System.out.println("Voltando...");
+        if (controllerCliente.autenticar(email, senha)) {
+            System.out.println("Login Válido!");
             esperar2Segundos();
             return;
-        }else{
-            System.out.println("Finalizando...");
-            esperar2Segundos();
-            System.exit(0);
-        }
-    }
-
-    public static void fazerLogin(){
-        limparTerminal();
-        System.out.println("Deseja fazer Login como: \n\n1.Cliente\n2.Funcionário\n3.Gerente\n\n");
-        int x = LER.nextInt();
-        if(x == 1){
-            System.out.print("Email: ");
-            String email = LER.next();
-            System.out.println("\nSenha: ");
-            String senha = LER.next();
-            System.out.println();
-            Pessoa p = controllerCliente.logarCliente(email, senha);
-            limparTerminal();
-            if(p == null){
-                System.out.println("Login Inválido!");
-                esperar2Segundos();
-                return;
-            }else{
-                System.out.println("Login Aceito!");
-                esperar2Segundos();
-                return;
-            }
-        }
-
-        
-    }
-
-    public static void mostrarMenuPrincipal(){
-        int x = LER.nextInt();
-        limparTerminal();
-        if(x == 1){
-            BibliotecaDAO dao = new BibliotecaDAO();
-            List<Biblioteca> bibliotecas = dao.mostrarBibliotecas();
-            if(bibliotecas.isEmpty()){
-                limparTerminal();
-                System.out.println("Nenhuma biblioteca registrada!");
-                esperar2Segundos();
-                return;
-            }
-            for (Biblioteca b : bibliotecas) {
-                System.out.println(b.getId() + " - " + b.getNome());
-            }
-            System.out.println("Selecione a biblioteca desejada:");
-            x = LER.nextInt();
-            menuDeLogin(bibliotecas.get(x-1));
-        }else if(x == 2){
-            criarBiblioteca();
-            esperar2Segundos();
-            return;
-        }else if(x == 3){
-            System.out.println("Finalizando...");
-            esperar2Segundos();
-            System.exit(0);
-        }else{
-            System.out.println("Número Inválido!");
+        } else {
+            System.out.println("Login Inválido!");
             esperar2Segundos();
             return;
         }
 
     }
 
-    public static void imprimirCabecalho(){
+    public static void criarConta() {
+        limparBuffer();
         limparTerminal();
-        System.out.println(" _     _ _                            ____            _                 \n" + //
-                        "| |   (_) |__  _ __ __ _ _ __ _   _  / ___| _   _ ___| |_ ___ _ __ ___  \n" + //
-                        "| |   | | '_ \\| '__/ _` | '__| | | | \\___ \\| | | / __| __/ _ \\ '_ ` _ \\ \n" + //
-                        "| |___| | |_) | | | (_| | |  | |_| |  ___) | |_| \\__ \\ ||  __/ | | | | |\n" + //
-                        "|_____|_|_.__/|_|  \\__,_|_|   \\__, | |____/ \\__, |___/\\__\\___|_| |_| |_|\n" + //
-                        "                              |___/         |___/                       ");
-        System.out.println("Bem-Vindo \nO que deseja?\n\n1.Selecionar Biblioteca\n2.Adicionar Biblioteca\n3.Sair\n");
+        Cliente c = new Cliente();
+        System.out.print("Nome: ");
+        c.setNome(LER.nextLine());
+        System.out.print("CPF: ");
+        c.setCpf(LER.nextLine());
+        System.out.print("Email: ");
+        c.setEmail(LER.nextLine());
+        System.out.print("Senha: ");
+        c.setSenha(LER.nextLine());
+        limparTerminal();
+        controllerCliente.cadastrarCliente(c);
+        System.out.println("Cadastro Concluido!");
+        esperar2Segundos();
+        limparTerminal();
+
+    }
+
+    public static void imprimirCabecalho() {
+        limparTerminal();
+        System.out.println("____  _ _     _ _       _                   ___ _____ \n" + //
+                "| __ )(_) |__ | (_) ___ | |_ ___  ___ __ _  |_ _|  ___|\n" + //
+                "|  _ \\| | '_ \\| | |/ _ \\| __/ _ \\/ __/ _` |  | || |_   \n" + //
+                "| |_) | | |_) | | | (_) | ||  __/ (_| (_| |  | ||  _|  \n" + //
+                "|____/|_|_.__/|_|_|\\___/ \\__\\___|\\___\\__,_| |___|_|    ");
+        System.out.println("\nBem-Vindo(a) \n\nO que deseja?\n1.Criar Conta\n2.Login\n3.Sair\n");
     }
 
     public static void limparTerminal() {
@@ -137,21 +93,20 @@ public class Main {
         System.out.print("\033\143");
     }
 
-    public static void limparBuffer(){
+    public static void limparBuffer() {
         LER.nextLine();
     }
 
-    public static void esperar2Segundos(){
+    public static void esperar2Segundos() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
-    
-    public static void iniciarControllers(){
+
+    public static void iniciarControllers() {
         controllerAutor = new AutorController();
-        controllerBiblioteca = new BibliotecaController();
         controllerCliente = new ClienteController();
         controllerEditora = new EditoraController();
         controllerEmprestimo = new EmprestimoController();
@@ -161,7 +116,6 @@ public class Main {
     }
 
     static AutorController controllerAutor;
-    static BibliotecaController controllerBiblioteca;
     static ClienteController controllerCliente;
     static EditoraController controllerEditora;
     static EmprestimoController controllerEmprestimo;

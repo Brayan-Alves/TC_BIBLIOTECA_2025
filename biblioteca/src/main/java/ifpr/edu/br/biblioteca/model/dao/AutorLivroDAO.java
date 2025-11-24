@@ -10,7 +10,7 @@ import ifpr.edu.br.biblioteca.model.Livro;
 public class AutorLivroDAO {
     
     //create
-    public void salvarAutor(Autor autor, Livro livro){
+    public void salvarLivroAutor(Autor autor, Livro livro){
         String sqlAutorLivro = "INSERT INTO autor_livro (id_autor, id_livro) VALUES (?,?)";
         Connection con = ConnectionFactory.getConnection();
         try {

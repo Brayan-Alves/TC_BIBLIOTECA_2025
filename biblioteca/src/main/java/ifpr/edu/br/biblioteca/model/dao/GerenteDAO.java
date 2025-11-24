@@ -4,17 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import ifpr.edu.br.biblioteca.model.Gerente;
-import ifpr.edu.br.biblioteca.model.Pessoa;
-import ifpr.edu.br.biblioteca.model.Biblioteca;
 
 public class GerenteDAO {
-        public void salvarGerente(Gerente gerente, Biblioteca biblioteca, Pessoa pessoa){
-        String sqlGerente = "INSERT INTO gerente (id_biblioteca, id_pessoa) VALUES (?,?)";
+        public void salvarGerente(Gerente gerente){
+        String sqlGerente = "INSERT INTO gerente (nome, cpf, email, senha) VALUES (?,?,?,?)";
         Connection con = ConnectionFactory.getConnection();
         try {
             PreparedStatement psGerente = con.prepareStatement(sqlGerente);
-            psGerente.setInt(1, biblioteca.getId());
-            psGerente.setInt(2, pessoa.getId());
+            psGerente.setString(1, gerente.getNome());
+            psGerente.setString(2, gerente.getCpf());
+            psGerente.setString(3, gerente.getEmail());
+            psGerente.setString(4, gerente.getSenha());
             psGerente.executeUpdate();
             System.out.println("Gerente inserido com sucesso!");
         } catch (Exception e) {

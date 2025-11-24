@@ -9,7 +9,7 @@ import ifpr.edu.br.biblioteca.model.Cliente;
 
 public class EmprestimoDAO {
         public void salvarEmprestimo(Emprestimo emprestimo, Livro livro, Cliente cliente){
-        String sqlEmprestimo = "INSERT INTO emprestimo (livro_id_livro, cliente_id_cliente) VALUES (?,?)";
+        String sqlEmprestimo = "INSERT INTO emprestimo (id_livro, id_cliente) VALUES (?,?)";
         Connection con = ConnectionFactory.getConnection();
         try {
             PreparedStatement psEmprestimo = con.prepareStatement(sqlEmprestimo);

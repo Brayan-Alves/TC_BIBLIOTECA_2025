@@ -5,24 +5,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
-    private static Connection conexao;
 
-    private ConnectionFactory(){
+    private ConnectionFactory() {
     }
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         try {
-            if(conexao == null){
-                //jdbc:gdbd://ip do servidor do BD:porta/database
-                String url = "jdbc:mysql://127.0.0.1:3306/mydb";
-                String user = "aluno";
-                String password = "aluno";
-                conexao = DriverManager.getConnection(url, user, password);
-            }
+            String url = "jdbc:mysql://127.0.0.1:3306/mydb";
+            String user = "aluno";
+            String password = "aluno";
+            return DriverManager.getConnection(url, user, password);
+
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            throw new RuntimeException("Erro ao conectar com o banco de dados");
         }
-        return conexao;
     }
 }
