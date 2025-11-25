@@ -26,4 +26,8 @@ public class FuncionarioController {
         }
         dao.salvarFuncionario(funcionario);
     }
+
+    public boolean autenticar(String email, String senha){
+        return dao.loginFuncionario(email, senha);
+    }
 }

@@ -20,12 +20,14 @@ public class Main {
         while (true) {
             imprimirCabecalho();
             int x = LER.nextInt();
+            //menuLogin();
             if (x == 1) {
                 criarConta();
             } else if (x == 2) {
-                fazerLogin();
-                
+                //fazerLogin();
+
             } else {
+                limparTerminal();
                 System.out.println("Finalizando...");
                 esperar2Segundos();
                 System.exit(0);
@@ -35,7 +37,14 @@ public class Main {
 
     }
 
-    public static void fazerLogin() {
+    // public static int menuLogin(){
+    //     System.out.print("Fazer Login como:\n\n1.Cliente\n2.Funcionário\n3.Gerente\n\n");
+    //     int x = LER.nextInt();
+    //     retur 
+
+    // }
+
+    public static void fazerLogin(int l) {
         limparBuffer();
         limparTerminal();
         System.out.print("Email: ");
@@ -44,35 +53,66 @@ public class Main {
         String senha = LER.next();
         System.out.println();
         limparTerminal();
-        if (controllerCliente.autenticar(email, senha)) {
-            System.out.println("Login Válido!");
-            esperar2Segundos();
-            return;
-        } else {
-            System.out.println("Login Inválido!");
-            esperar2Segundos();
-            return;
+        if(l == 1){
+            if (controllerCliente.autenticar(email, senha)) {
+                System.out.println("Login Válido!");
+                esperar2Segundos();
+                return;
+            } else {
+                System.out.println("Login Inválido!");
+                esperar2Segundos();
+                return;
+            }
+        }else if(l == 2){
+            if (controllerFuncionario.autenticar(email, senha)) {
+                System.out.println("Login Válido!");
+                esperar2Segundos();
+                return;
+            } else {
+                System.out.println("Login Inválido!");
+                esperar2Segundos();
+                return;
+            }
+        }else if(l == 2){
+            if (controllerGerente.autenticar(email, senha)) {
+                System.out.println("Login Válido!");
+                esperar2Segundos();
+                return;
+            } else {
+                System.out.println("Login Inválido!");
+                esperar2Segundos();
+                return;
+            }
         }
 
     }
 
     public static void criarConta() {
+        limparTerminal();
+        System.out.println("Deseja criar conta como:\n\n1.Cliente\n\n2.Voltar");
+        int n = LER.nextInt();
         limparBuffer();
         limparTerminal();
-        Cliente c = new Cliente();
-        System.out.print("Nome: ");
-        c.setNome(LER.nextLine());
-        System.out.print("CPF: ");
-        c.setCpf(LER.nextLine());
-        System.out.print("Email: ");
-        c.setEmail(LER.nextLine());
-        System.out.print("Senha: ");
-        c.setSenha(LER.nextLine());
-        limparTerminal();
-        controllerCliente.cadastrarCliente(c);
-        System.out.println("Cadastro Concluido!");
-        esperar2Segundos();
-        limparTerminal();
+        if(n == 1){ // cliente
+            Cliente c = new Cliente();
+            System.out.print("Nome: ");
+            c.setNome(LER.nextLine());
+            System.out.print("CPF: ");
+            c.setCpf(LER.nextLine());
+            System.out.print("Email: ");
+            c.setEmail(LER.nextLine());
+            System.out.print("Senha: ");
+            c.setSenha(LER.nextLine());
+            limparTerminal();
+            controllerCliente.cadastrarCliente(c);
+            System.out.println("Cadastro Concluido!");
+            esperar2Segundos();
+            limparTerminal();
+        }else if(n == 2){
+            limparTerminal();
+            return;
+        }
+        
 
     }
 
@@ -83,7 +123,7 @@ public class Main {
                 "|  _ \\| | '_ \\| | |/ _ \\| __/ _ \\/ __/ _` |  | || |_   \n" + //
                 "| |_) | | |_) | | | (_) | ||  __/ (_| (_| |  | ||  _|  \n" + //
                 "|____/|_|_.__/|_|_|\\___/ \\__\\___|\\___\\__,_| |___|_|    ");
-        System.out.println("\nBem-Vindo(a) \n\nO que deseja?\n1.Criar Conta\n2.Login\n3.Sair\n");
+        System.out.println("\nBem-Vindo(a) \n\nO que deseja?\n\n1.Criar Conta\n2.Login\n\n3.Sair\n");
     }
 
     public static void limparTerminal() {

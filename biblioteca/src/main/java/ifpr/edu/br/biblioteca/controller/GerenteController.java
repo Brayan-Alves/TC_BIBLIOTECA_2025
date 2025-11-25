@@ -1,7 +1,6 @@
 package ifpr.edu.br.biblioteca.controller;
 
 import ifpr.edu.br.biblioteca.model.Gerente;
-import ifpr.edu.br.biblioteca.model.Biblioteca;
 import ifpr.edu.br.biblioteca.model.dao.GerenteDAO;
 
 public class GerenteController {
@@ -26,5 +25,9 @@ public class GerenteController {
             return;
         }
         dao.salvarGerente(gerente);
+    }
+
+    public boolean autenticar(String email, String senha){
+        return dao.loginGerente(email, senha);
     }
 }

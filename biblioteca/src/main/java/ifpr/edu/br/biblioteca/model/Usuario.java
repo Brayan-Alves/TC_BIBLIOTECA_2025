@@ -1,13 +1,13 @@
 package ifpr.edu.br.biblioteca.model;
 
-public class Cliente{
+public class Usuario {
     private int id;
     private String nome;
     private String cpf;
     private String email;
     private String senha;
     private String endereco;
-    public Cliente() {
+    public Usuario() {
     }
     public int getId() {
         return id;
@@ -55,3 +55,4 @@ public class Cliente{
         this.endereco = endereco;
     }
 }
+
