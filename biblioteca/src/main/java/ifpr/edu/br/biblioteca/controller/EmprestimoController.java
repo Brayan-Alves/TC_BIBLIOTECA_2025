@@ -1,18 +1,28 @@
 package ifpr.edu.br.biblioteca.controller;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import ifpr.edu.br.biblioteca.model.Emprestimo;
-import ifpr.edu.br.biblioteca.model.Livro;
-import ifpr.edu.br.biblioteca.model.Cliente;
 import ifpr.edu.br.biblioteca.model.dao.EmprestimoDAO;
 
 public class EmprestimoController {
+
     private EmprestimoDAO dao;
 
-    public EmprestimoController(){
+    public EmprestimoController() {
         this.dao = new EmprestimoDAO();
     }
 
-    public void cadastrarEmprestimo(Emprestimo emprestimo, Livro livro, Cliente cliente){
-        dao.salvarEmprestimo(emprestimo, livro, cliente);
+    public void registrarEmprestimo(Emprestimo emprestimo) {
+        dao.registrarEmprestimo(emprestimo);
+    }
+
+    public void devolverEmprestimo(int idEmprestimo, LocalDate dataDevolucao) {
+        dao.marcarDevolvido(idEmprestimo, dataDevolucao);
+    }
+
+    public List<Emprestimo> listarEmprestimosPorUsuario(int idUsuario) {
+        return dao.listarPorUsuario(idUsuario);
     }
 }

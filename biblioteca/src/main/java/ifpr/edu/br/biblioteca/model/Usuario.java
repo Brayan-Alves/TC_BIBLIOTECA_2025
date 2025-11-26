@@ -3,10 +3,9 @@ package ifpr.edu.br.biblioteca.model;
 public class Usuario {
     private int id;
     private String nome;
-    private String cpf;
+    private String endereco;
     private String email;
     private String senha;
-    private String endereco;
     public Usuario() {
     }
     public int getId() {
@@ -23,14 +22,6 @@ public class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public String getEmail() {

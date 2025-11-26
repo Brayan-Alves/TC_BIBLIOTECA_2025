@@ -12,8 +12,8 @@ public class ConnectionFactory {
     public static Connection getConnection() {
         try {
             String url = "jdbc:mysql://127.0.0.1:3306/mydb";
-            String user = "aluno";
-            String password = "aluno";
+            String user = "root";
+            String password = "27082009";
             return DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {

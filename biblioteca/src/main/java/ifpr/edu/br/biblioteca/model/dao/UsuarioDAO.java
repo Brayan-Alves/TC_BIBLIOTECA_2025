@@ -4,86 +4,101 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import ifpr.edu.br.biblioteca.model.Cliente;
-import ifpr.edu.br.biblioteca.model.Funcionario;
-import ifpr.edu.br.biblioteca.model.Gerente;
+import ifpr.edu.br.biblioteca.model.Usuario;
 
 public class UsuarioDAO {
-    public void salvarCliente(Cliente cliente) {
 
-        String sql = "INSERT INTO usuario (nome, cpf, email, senha, id_role) VALUES (?,?,?,?,?)";
-        
-        try (Connection con = ConnectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    private Connection conn;
 
-            ps.setString(1, cliente.getNome());
-            ps.setString(2, cliente.getCpf());
-            ps.setString(3, cliente.getEmail());
-            ps.setString(4, cliente.getSenha());
-            ps.setInt(5, 1);
-            ps.executeUpdate();
+    public UsuarioDAO() {
+        this.conn = ConnectionFactory.getConnection();
+    }
 
-            ResultSet rs = ps.getGeneratedKeys();
+    public void cadastrar(Usuario usuario) {
+        String sql = "INSERT INTO usuario (nome, endereco, email, senha) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEndereco());
+            stmt.setString(3, usuario.getEmail());
+            stmt.setString(4, usuario.getSenha());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao cadastrar usuário");
+        }
+    }
+
+
+    public Usuario login(String email, String senha) {
+        String sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
+
+            ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
-                cliente.setId(rs.getInt(1));
+                Usuario u = new Usuario();
+                u.setId(rs.getInt("id_usuario"));
+                u.setNome(rs.getString("nome"));
+                u.setEmail(rs.getString("email"));
+                return u;
             }
 
+            return null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Erro ao fazer login");
         }
+    }
 
-        sql = "INSERT INTO cliente (id_cliente, endereco) VALUES (?,?)";
-        try (Connection con = ConnectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
+    public List<Usuario> listar() {
+        List<Usuario> lista = new ArrayList<>();
 
-            ps.setInt(1, cliente.getId());
-            ps.setString(2, cliente.getEndereco());
-            ps.executeUpdate();
+        String sql = "SELECT * FROM usuario";
 
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                u.setId(rs.getInt("id_usuario"));
+                u.setNome(rs.getString("nome"));
+                u.setEmail(rs.getString("email"));
+                lista.add(u);
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Erro ao listar usuários");
+        }
+
+        return lista;
+    }
+
+    public void atualizar(Usuario usuario) {
+        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE id_usuario = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEmail());
+            stmt.setString(3, usuario.getSenha());
+            stmt.setInt(4, usuario.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar usuário", e);
         }
     }
 
-    public void salvarFuncionario(Funcionario funcionario) {
-        String sqlFuncionario = "INSERT INTO usuario (nome, cpf, email, senha, id_role) VALUES (?,?,?,?)";
-        Connection con = ConnectionFactory.getConnection();
-        try {
-            PreparedStatement psFuncionario = con.prepareStatement(sqlFuncionario);
-            psFuncionario.setString(1, funcionario.getNome());
-            psFuncionario.setString(2, funcionario.getCpf());
-            psFuncionario.setString(3, funcionario.getEmail());
-            psFuncionario.setString(4, funcionario.getSenha());
-            psFuncionario.setInt(5, 2);
-            psFuncionario.executeUpdate();
-            System.out.println("Funcionario inserido com sucesso!");
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
+    public void excluir(int id) {
+        String sql = "DELETE FROM usuario WHERE id_usuario = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir usuário", e);
         }
-
     }
-
-    public void salvarGerente(Gerente gerente){
-        String sqlGerente = "INSERT INTO usuario (nome, cpf, email, senha, id_role) VALUES (?,?,?,?)";
-        Connection con = ConnectionFactory.getConnection();
-        try {
-            PreparedStatement psGerente = con.prepareStatement(sqlGerente);
-            psGerente.setString(1, gerente.getNome());
-            psGerente.setString(2, gerente.getCpf());
-            psGerente.setString(3, gerente.getEmail());
-            psGerente.setString(4, gerente.getSenha());
-            psGerente.setInt(5, 3);
-            psGerente.executeUpdate();
-            System.out.println("Gerente inserido com sucesso!");
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        } 
-    
-    }
-
-
 }

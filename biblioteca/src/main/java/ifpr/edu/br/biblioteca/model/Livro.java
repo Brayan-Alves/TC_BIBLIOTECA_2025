@@ -2,8 +2,9 @@ package ifpr.edu.br.biblioteca.model;
 
 public class Livro {
     private int id;
-    private String nome;
+    private String titulo;
     private Autor autor;
+    private int ano;
     private Editora editora;
     public Livro() {
     }
@@ -13,12 +14,7 @@ public class Livro {
     public void setId(int id) {
         this.id = id;
     }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    
     public Autor getAutor() {
         return autor;
     }
@@ -30,5 +26,17 @@ public class Livro {
     }
     public void setEditora(Editora editora) {
         this.editora = editora;
+    }
+    public int getAno() {
+        return ano;
+    }
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+    public String getTitulo() {
+        return titulo;
+    }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 }
