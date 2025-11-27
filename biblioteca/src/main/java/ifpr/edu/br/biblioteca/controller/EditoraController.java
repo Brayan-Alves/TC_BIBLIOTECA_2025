@@ -12,7 +12,7 @@ public class EditoraController {
         this.dao = new EditoraDAO();
     }
 
-    public void cadastrarAutor(Editora editora) {
+    public void cadastrarEditora(Editora editora) {
         if (editora.getNome() == null || editora.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da editora é obrigatório.");
         }

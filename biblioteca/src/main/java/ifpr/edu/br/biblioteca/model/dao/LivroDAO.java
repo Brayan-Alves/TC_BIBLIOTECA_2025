@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import ifpr.edu.br.biblioteca.model.Livro;
+import ifpr.edu.br.biblioteca.model.Autor;
 import ifpr.edu.br.biblioteca.model.Editora;
 
 
@@ -62,37 +65,55 @@ public class LivroDAO {
     }
 
     public List<Livro> listarTodos() {
-        String sql = "SELECT * FROM livro";
-        List<Livro> livros = new ArrayList<>();
+    String sql = "SELECT l.id_livro, l.titulo, l.ano, " +
+                 "e.id_editora, e.nome AS nome_editora, " +
+                 "a.id_autor, a.nome AS nome_autor " +
+                 "FROM livro l " +
+                 "JOIN editora e ON e.id_editora = l.id_editora " +
+                 "LEFT JOIN autor_livro al ON al.id_livro = l.id_livro " +
+                 "LEFT JOIN autor a ON a.id_autor = al.id_autor";
 
-        try (Connection con = ConnectionFactory.getConnection();
-             PreparedStatement stmt = con.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+    Map<Integer, Livro> mapaLivros = new LinkedHashMap<>();
 
-            while (rs.next()) {
-                livros.add(mapearLivro(rs));
+    try (Connection con = ConnectionFactory.getConnection();
+         PreparedStatement stmt = con.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+
+            int idLivro = rs.getInt("id_livro");
+
+            Livro livro = mapaLivros.get(idLivro);
+
+            if (livro == null) {
+                livro = new Livro();
+                livro.setId(idLivro);
+                livro.setTitulo(rs.getString("titulo"));
+                livro.setAno(rs.getInt("ano"));
+
+                Editora editora = new Editora();
+                editora.setId(rs.getInt("id_editora"));
+                editora.setNome(rs.getString("nome_editora"));
+                livro.setEditora(editora);
+
+                livro.setAutores(new ArrayList<>());
+                mapaLivros.put(idLivro, livro);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar livros");
+            int idAutor = rs.getInt("id_autor");
+            if (idAutor != 0) {
+                Autor autor = new Autor();
+                autor.setId(idAutor);
+                autor.setNome(rs.getString("nome_autor"));
+                livro.getAutores().add(autor);
+            }
         }
 
-        return livros;
+    } catch (SQLException e) {
+        throw new RuntimeException("Erro ao listar livros", e);
     }
 
-
-    private Livro mapearLivro(ResultSet rs) throws SQLException {
-        Livro livro = new Livro();
-
-        livro.setId(rs.getInt("id_livro"));
-        livro.setTitulo(rs.getString("titulo"));
-        livro.setAno(rs.getInt("ano"));
-
-        Editora editora = new Editora();
-        editora.setId(rs.getInt("id_editora"));
-        livro.setEditora(editora);
-
-        return livro;
-    }
+    return new ArrayList<>(mapaLivros.values());
+}
 }
 

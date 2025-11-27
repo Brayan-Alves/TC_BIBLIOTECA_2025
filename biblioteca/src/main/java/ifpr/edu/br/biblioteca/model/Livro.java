@@ -1,9 +1,11 @@
 package ifpr.edu.br.biblioteca.model;
 
+import java.util.List;
+
 public class Livro {
     private int id;
     private String titulo;
-    private Autor autor;
+    private List<Autor> autores;
     private int ano;
     private Editora editora;
     public Livro() {
@@ -13,13 +15,6 @@ public class Livro {
     }
     public void setId(int id) {
         this.id = id;
-    }
-    
-    public Autor getAutor() {
-        return autor;
-    }
-    public void setAutor(Autor autor) {
-        this.autor = autor;
     }
     public Editora getEditora() {
         return editora;
@@ -38,5 +33,14 @@ public class Livro {
     }
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+    public List<Autor> getAutores() {
+        return autores;
+    }
+    public void setAutores(List<Autor> autores) {
+        this.autores = autores;
+    }
+    public void addAutor(Autor autor) {
+        this.autores.add(autor);
     }
 }
