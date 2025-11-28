@@ -61,17 +61,18 @@ public class Main {
     public static void menuAdministrador() {
         limparTerminal();
         System.out.println("Bem-vindo, Administrador!\n");
-        esperar2Segundos();
         System.out.println(
                 "O que deseja fazer?\n\n1.Gerenciar Autores\n2.Gerenciar Editoras\n3.Gerenciar Livros\n4.Gerenciar Usuários\n\n5.Logout");
         int x = LER.nextInt();
         limparTerminal();
         switch (x) {
             case 1:
+                limparTerminal();
                 System.out.println("Gerenciar Autores\n");
                 System.out
                         .println("1.Cadastrar Autor\n2.Listar Autores\n3.Atualizar Autor\n4.Excluir Autor\n\n5.Voltar");
                 int k = LER.nextInt();
+                limparTerminal();
                 switch (k) {
                     case 1:
                         limparTerminal();
@@ -88,6 +89,7 @@ public class Main {
                         break;
                     case 2:
                         limparTerminal();
+                        System.out.println("---- Lista de Autores ----\n");
                         List<Autor> autores = controllerAutor.listarAutores();
                         limparTerminal();
                         System.out.println("Lista de Autores:");
@@ -101,7 +103,10 @@ public class Main {
                         break;
                     case 3:
                         limparTerminal();
-                        limparBuffer();
+                        System.out.println("---- Atualizar Autor ----\n");
+                        for (Autor autor : controllerAutor.listarAutores()) {
+                            System.out.println("ID: " + autor.getId() + " | Nome: " + autor.getNome());
+                        }
                         System.out.print("ID do Autor a ser atualizado: ");
                         int idAtualizar = LER.nextInt();
                         limparBuffer();
@@ -115,6 +120,10 @@ public class Main {
                         break;
                     case 4:
                         limparTerminal();
+                        System.out.println("---- Excluir Autor ----\n");
+                        for (Autor autor : controllerAutor.listarAutores()) {
+                            System.out.println("ID: " + autor.getId() + " | Nome: " + autor.getNome());
+                        }
                         System.out.print("ID do Autor a ser excluído: ");
                         int idExcluir = LER.nextInt();
                         controllerAutor.excluirAutor(idExcluir);
@@ -138,12 +147,15 @@ public class Main {
                 menuAdministrador();
                 break;
             case 2:
+                limparTerminal();
                 System.out.println("Gerenciar Editoras\n");
                 System.out.println(
                         "1.Cadastrar Editora\n2.Listar Editoras\n3.Atualizar Editora\n4.Excluir Editora\n\n5.Voltar");
                 int j = LER.nextInt();
                 switch (j) {
                     case 1:
+                        limparTerminal();
+                        System.out.println("---- Cadastrar Editora ----\n");
                         Editora e = new Editora();
                         System.out.print("Nome: ");
                         limparBuffer();
@@ -154,6 +166,8 @@ public class Main {
                         esperar2Segundos();
                         break;
                     case 2:
+                        limparTerminal();
+                        System.out.println("---- Lista de Editoras ----\n");
                         List<Editora> editoras = controllerEditora.listarEditora();
                         limparTerminal();
                         System.out.println("Lista de Editoras:");
@@ -165,6 +179,11 @@ public class Main {
                         LER.nextLine();
                         break;
                     case 3:
+                        limparTerminal();
+                        System.out.println("---- Atualizar Editora ----\n");
+                        for (Editora editora : controllerEditora.listarEditora()) {
+                            System.out.println("ID: " + editora.getId() + " | Nome: " + editora.getNome());
+                        }
                         System.out.print("ID da Editora a ser atualizada: ");
                         int id = LER.nextInt();
                         limparBuffer();
@@ -176,6 +195,11 @@ public class Main {
                         esperar2Segundos();
                         break;
                     case 4:
+                        limparTerminal();
+                        System.out.println("---- Excluir Editora ----\n");
+                        for (Editora editora : controllerEditora.listarEditora()) {
+                            System.out.println("ID: " + editora.getId() + " | Nome: " + editora.getNome());
+                        }
                         System.out.println("ID da Editora a ser excluída: ");
                         int idEx = LER.nextInt();
                         controllerEditora.excluirEditora(idEx);
@@ -198,22 +222,25 @@ public class Main {
                 menuAdministrador();
                 break;
             case 3:
+                limparTerminal();
                 System.out.println("Gerenciar Livros\n");
                 System.out
                         .println("1.Cadastrar Livro\n2.Listar Livros\n3.Atualizar Livro\n4.Excluir Livro\n\n5.Voltar");
                 int m = LER.nextInt();
                 switch (m) {
                     case 1:
+                        limparTerminal();
+                        System.out.println("---- Cadastrar Livro ----\n");
                         Livro l = new Livro();
                         System.out.print("Título: ");
                         limparBuffer();
                         l.setTitulo(LER.nextLine());
                         System.out.println("Autor(es): ");
+                        for (Autor a : controllerAutor.listarAutores()) {
+                            System.out.println("ID: " + a.getId() + " | Nome: " + a.getNome());
+                        }
+                        System.out.print("Digite o ID do Autor (ou 0 para finalizar): \n");
                         while (true) {
-                            System.out.print("Digite o ID do Autor (ou 0 para finalizar): ");
-                            for (Autor a : controllerAutor.listarAutores()) {
-                                System.out.println("ID: " + a.getId() + " | Nome: " + a.getNome());
-                            }
                             int idAutor = LER.nextInt();
                             if (idAutor == 0) {
                                 break;
@@ -225,15 +252,14 @@ public class Main {
                                     break;
                                 }
                             }
-                            if (autor != null) {
-                                l.addAutor(autor);
-                            } else {
-                                System.out.println("Autor com ID " + idAutor + " não encontrado.");
-                            }
+                            controllerLivroAutor.adicionarAutorAoLivro(l, autor);
                         }
                         
                         System.out.print("Ano: ");
                         l.setAno(LER.nextInt());
+                        for (Editora ed : controllerEditora.listarEditora()) {
+                            System.out.println("ID: " + ed.getId() + " | Nome: " + ed.getNome());
+                        }
                         System.out.print("ID da Editora: ");
                         int idEditora = LER.nextInt();
                         Editora editora = null;
@@ -247,6 +273,7 @@ public class Main {
                         controllerLivro.cadastrarLivro(l);
                     case 2:
                         limparTerminal();
+                        System.out.println("---- Lista de Livros ----\n");
                         for (Livro livro : controllerLivro.listarTodos()) {
                             String nomesAutores = "";
                             for (int i = 0; i < livro.getAutores().size(); i++) {
@@ -257,7 +284,7 @@ public class Main {
                                 }
                             }
                             System.out.println("ID: " + livro.getId() + " | Título: " + livro.getTitulo()
-                                    + " | Autores: " + nomesAutores + " | Ano: "
+                                    + " | Autor(es): " + nomesAutores + " | Ano: "
                                     + livro.getAno() + " | Editora: " + livro.getEditora().getNome());
                         }
                         System.out.print("Pressione Enter para continuar...");
@@ -265,7 +292,22 @@ public class Main {
                         LER.nextLine();
                         break;
                     case 3:
+                        limparTerminal();
+                        System.out.println("---- Atualizar Livro ----\n");
                         Livro lAtu = new Livro();
+                        for (Livro livro : controllerLivro.listarTodos()) {
+                            String nomesAutores = "";
+                            for (int i = 0; i < livro.getAutores().size(); i++) {
+                                if (i == livro.getAutores().size() - 1) {
+                                    nomesAutores += livro.getAutores().get(i).getNome();
+                                } else {
+                                    nomesAutores += livro.getAutores().get(i).getNome() + ", ";
+                                }
+                            }
+                            System.out.println("ID: " + livro.getId() + " | Título: " + livro.getTitulo() + " | Autor(es): "
+                                    + nomesAutores + " | Ano: "
+                                    + livro.getAno() + " | Editora: " + livro.getEditora().getNome());
+                        }
                         System.out.print("ID do Livro a ser atualizado: ");
                         lAtu.setId(LER.nextInt());
                         limparBuffer();
@@ -273,9 +315,43 @@ public class Main {
                         lAtu.setTitulo(LER.nextLine());
                         System.out.print("Novo Ano: ");
                         lAtu.setAno(LER.nextInt());
+                        System.out.println("Novo(s) Autor(es): ");
+                        for (Autor a : controllerAutor.listarAutores()) {
+                            System.out.println("ID: " + a.getId() + " | Nome: " + a.getNome());
+                        }
+                        System.out.print("Digite o ID do Autor (ou 0 para finalizar): \n");
+                        while (true) {
+                            int idAutor = LER.nextInt();
+                            if (idAutor == 0) {
+                                break;
+                            }
+                            Autor autor = new Autor();
+                            for (Autor a1 : controllerAutor.listarAutores()) {
+                                if (a1.getId() == idAutor) {
+                                    autor = a1;
+                                    break;
+                                }
+                            }
+                            controllerLivroAutor.adicionarAutorAoLivro(lAtu, autor);
+                        }
                         controllerLivro.atualizarLivro(lAtu);
                         limparTerminal();
                     case 4:
+                        limparTerminal();
+                        System.out.println("---- Excluir Livro ----\n");
+                        for (Livro livro : controllerLivro.listarTodos()) {
+                            String nomesAutores = "";
+                            for (int i = 0; i < livro.getAutores().size(); i++) {
+                                if (i == livro.getAutores().size() - 1) {
+                                    nomesAutores += livro.getAutores().get(i).getNome();
+                                } else {
+                                    nomesAutores += livro.getAutores().get(i).getNome() + ", ";
+                                }
+                            }
+                            System.out.println("ID: " + livro.getId() + " | Título: " + livro.getTitulo() + " | Autor(es): "
+                                    + nomesAutores + " | Ano: "
+                                    + livro.getAno() + " | Editora: " + livro.getEditora().getNome());
+                        }
                         System.out.println("ID do Livro a ser excluído: ");
                         int idEx = LER.nextInt();
                         controllerLivro.deletarLivro(idEx);
@@ -296,12 +372,15 @@ public class Main {
                 menuAdministrador();
                 break;
             case 4:
+                limparTerminal(); 
                 System.out.println("Gerenciar Usuários\n");
                 System.out.println(
                         "1.Cadastrar Usuário\n2.Listar Usuários\n3.Atualizar Usuário\n4.Excluir Usuário\n\n5.Voltar");
                 int n = LER.nextInt();
                 switch (n) {
                     case 1:
+                        limparTerminal();
+                        System.out.println("---- Cadastrar Usuário ----\n");
                         Usuario u = new Usuario();
                         System.out.print("Nome: ");
                         limparBuffer();
@@ -318,6 +397,8 @@ public class Main {
                         esperar2Segundos();
                         break;
                     case 2:
+                        limparTerminal();
+                        System.out.println("---- Lista de Usuários ----\n");
                         List<Usuario> usuarios = controllerUsuario.listarUsuarios();
                         for (Usuario usuario : usuarios) {
                             System.out.println("ID: " + usuario.getId() + " | Nome: " + usuario.getNome() + " | Email: "
@@ -328,6 +409,8 @@ public class Main {
                         LER.nextLine();
                         break;
                     case 3:
+                        limparTerminal();
+                        System.out.println("---- Atualizar Usuário ----\n");
                         Usuario uAtu = new Usuario();
                         System.out.print("ID do Usuário a ser atualizado: ");
                         uAtu.setId(LER.nextInt());
@@ -346,6 +429,8 @@ public class Main {
                         esperar2Segundos();
                         break;
                     case 4:
+                        limparTerminal();
+                        System.out.println("---- Excluir Usuário ----\n");
                         System.out.print("ID do Usuário a ser excluído: ");
                         int idUsuEx = LER.nextInt();
                         controllerUsuario.excluirUsuario(idUsuEx);
