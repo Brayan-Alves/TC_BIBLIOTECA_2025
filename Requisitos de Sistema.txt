@@ -1,4 +1,66 @@
-Requisitos:
-Cadastrar Clientes, Funcionários, Gerentes, Livros
-Gerenciar Clientes, Funcionários, Gerentes, Livros
-Fazer Empréstimos e Devoluções
+REQUISITOS FUNCIONAIS
+RF01 – Cadastrar usuários
+O sistema deve permitir cadastrar usuário com nome, e-mail e senha.
+
+RF02 – Login de usuários
+O sistema deve permitir que o usuário faça login usando e-mail e senha.
+
+RF03 – Cadastrar editoras
+O sistema deve permitir cadastrar, listar, editar e excluir editoras.
+
+RF04 – Cadastrar autores
+O sistema deve permitir cadastrar, listar, editar e excluir autores.
+
+RF05 – Cadastrar livros
+O sistema deve permitir cadastrar livros contendo:
+título
+ano
+editora
+lista de autores
+
+RF06 – Relacionar livro ↔ autores (N:M)
+O sistema deve registrar corretamente múltiplos autores por livro.
+
+RF07 – Registrar empréstimos
+O sistema deve permitir registrar empréstimos contendo:
+livro
+usuário
+data de empréstimo
+data prevista de devolução
+status devolvido
+
+RF08 – Registrar devolução
+O sistema deve permitir marcar um empréstimo como devolvido.
+
+RF09 – Listar livros
+O sistema deve mostrar livros já com:
+título
+autores
+ano
+editora
+
+RF10 – Listar empréstimos
+O sistema deve exibir empréstimos com status (Devolvido/Não devolvido).
+
+REQUISITOS NÃO FUNCIONAIS
+RNF01 – Linguagem e tecnologia
+A aplicação deve ser implementada em Java com JDBC puro.
+
+RNF02 – Banco de dados
+O sistema deve usar MySQL Workbench.
+
+RNF03 – Persistência
+Os dados devem ser persistidos em tabelas adequadas, com chaves estrangeiras e integridade relacional.
+
+RNF04 – Interface
+A interface deve ser em console pelo terminal.
+
+RNF05 – Portabilidade
+O sistema deve rodar em qualquer computador com Java 21+ instalado.
+
+RNF06 – Padrão de Projeto
+O sistema deve seguir a arquitetura MVC:
+Model → Classes de domínio (Livro, Autor, Usuario...)
+DAO → Acesso ao banco
+Controller → Regras de negócio
+View → Interface com o usuário

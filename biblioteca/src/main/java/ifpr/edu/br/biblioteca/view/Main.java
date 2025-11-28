@@ -468,7 +468,7 @@ public class Main {
         System.out.println("Bem-vindo, " + u.getNome() + "!");
         esperar2Segundos();
         System.out.println(
-                "\nO que deseja fazer?\n\n1.Ver livros disponíveis\n2.Ver meus empréstimos\n3.Fazer empréstimo\n4.Devolver livro\n\n5.Logout");
+                "\nO que deseja fazer?\n\n1.Ver livros disponíveis\n2.Ver meus empréstimos\n3.Fazer empréstimo\n4.Devolver livro\n5.Mudar Senha\n\n6.Logout");
         int x = LER.nextInt();
         switch (x) {
             case 1:
@@ -503,6 +503,19 @@ public class Main {
             case 3:
                 Emprestimo emp = new Emprestimo();
                 emp.setUsuario(u);
+                for (Livro livro : controllerLivro.listarTodos()) {
+                    String nomesAutores = "";
+                    for (int i = 0; i < livro.getAutores().size(); i++) {
+                        if (i == livro.getAutores().size() - 1) {
+                            nomesAutores += livro.getAutores().get(i).getNome();
+                        } else {
+                            nomesAutores += livro.getAutores().get(i).getNome() + ", ";
+                        }
+                    }
+                    System.out.println("ID: " + livro.getId() + " | Título: " + livro.getTitulo() + " | Autores: "
+                            + nomesAutores + " | Ano: "
+                            + livro.getAno() + " | Editora: " + livro.getEditora().getNome());
+                }
                 System.out.println("Digite o ID do livro que deseja emprestar:");
                 List<Livro> livros = controllerLivro.listarTodos();
                 for (Livro livro : livros) {
@@ -533,6 +546,17 @@ public class Main {
                 controllerEmprestimo.devolverEmprestimo(idEmprestimo, LocalDate.now());
                 break;
             case 5:
+                limparTerminal();
+                System.out.print("Digite sua nova senha: ");
+                limparBuffer();
+                String novaSenha = LER.nextLine();
+                u.setSenha(novaSenha);
+                controllerUsuario.atualizarUsuario(u);
+                limparTerminal();
+                System.out.println("Senha atualizada com sucesso!");
+                esperar2Segundos();
+                break;
+            case 6:
                 limparTerminal();
                 System.out.println("Fazendo logout...");
                 esperar2Segundos();
