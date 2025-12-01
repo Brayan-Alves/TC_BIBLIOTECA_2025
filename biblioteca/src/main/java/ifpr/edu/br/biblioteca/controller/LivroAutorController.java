@@ -17,7 +17,7 @@ public class LivroAutorController {
         dao.associarAutorAoLivro(livro, autor);
     }
 
-    public void removerAutorDoLivro(Livro livro, Autor autor) {
-        dao.removerAssociacao(livro, autor);
+    public void removerAutorDoLivro(int idLivro) {
+        dao.removerAssociacao(idLivro);
     }
 }

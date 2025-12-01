@@ -64,12 +64,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`autor_livro` (
   CONSTRAINT `fk_autor_has_livro_autor`
     FOREIGN KEY (`id_autor`)
     REFERENCES `mydb`.`autor` (`id_autor`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_autor_has_livro_livro1`
     FOREIGN KEY (`id_livro`)
     REFERENCES `mydb`.`livro` (`id_livro`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

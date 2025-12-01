@@ -74,6 +74,7 @@ public class UsuarioDAO {
                 u.setId(rs.getInt("id_usuario"));
                 u.setNome(rs.getString("nome"));
                 u.setEmail(rs.getString("email"));
+                u.setEndereco(rs.getString("endereco"));
                 lista.add(u);
             }
         } catch (SQLException e) {
@@ -84,13 +85,14 @@ public class UsuarioDAO {
     }
 
     public void atualizar(Usuario usuario) {
-        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE id_usuario = ?";
+        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ?, endereco = ? WHERE id_usuario = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
-            stmt.setInt(4, usuario.getId());
+            stmt.setString(4, usuario.getEndereco());
+            stmt.setInt(5, usuario.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar usuário", e);
