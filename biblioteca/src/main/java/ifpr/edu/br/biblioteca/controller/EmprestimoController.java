@@ -1,6 +1,5 @@
 package ifpr.edu.br.biblioteca.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import ifpr.edu.br.biblioteca.model.Emprestimo;
@@ -18,8 +17,8 @@ public class EmprestimoController {
         dao.registrarEmprestimo(emprestimo);
     }
 
-    public void devolverEmprestimo(int idEmprestimo, LocalDate dataDevolucao) {
-        dao.marcarDevolvido(idEmprestimo, dataDevolucao);
+    public void devolverEmprestimo(int idEmprestimo) {
+        dao.marcarDevolvido(idEmprestimo);
     }
 
     public List<Emprestimo> listarEmprestimosPorUsuario(int idUsuario) {

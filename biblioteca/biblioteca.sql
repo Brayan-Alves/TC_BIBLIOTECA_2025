@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`livro` (
   CONSTRAINT `fk_livro_editora1`
     FOREIGN KEY (`id_editora`)
     REFERENCES `mydb`.`editora` (`id_editora`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`emprestimo` (
   CONSTRAINT `fk_emprestimo_usuario1`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `mydb`.`usuario` (`id_usuario`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 )
 ENGINE = InnoDB;

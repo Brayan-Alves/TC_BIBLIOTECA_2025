@@ -1,12 +1,12 @@
 package ifpr.edu.br.biblioteca.model.dao;
 
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
 
 import ifpr.edu.br.biblioteca.model.Emprestimo;
 import ifpr.edu.br.biblioteca.model.Livro;
@@ -19,30 +19,32 @@ public class EmprestimoDAO {
                      "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection con = ConnectionFactory.getConnection();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
+             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, e.getUsuario().getId());
             stmt.setInt(2, e.getLivro().getId());
             stmt.setDate(3, e.getDataEmprestimo());
             stmt.setDate(4, e.getDataDevolucao());
             stmt.setInt(5, 0);
-
             stmt.executeUpdate();
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    e.setId(rs.getInt(1));
+                }
+            }
 
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao registrar empréstimo");
         }
     }
 
-    public void marcarDevolvido(int idEmprestimo, java.time.LocalDate dataDevolucao) {
-        String sql = "UPDATE emprestimo SET devolvido = TRUE, data_devolucao = ? WHERE id = ?";
+    public void marcarDevolvido(int idEmprestimo) {
+        String sql = "UPDATE emprestimo SET devolvido = 1 WHERE id_emprestimo = ?";
 
         try (Connection con = ConnectionFactory.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setDate(1, Date.valueOf(dataDevolucao));
-            stmt.setInt(2, idEmprestimo);
-
+            stmt.setInt(1, idEmprestimo);
             stmt.executeUpdate();
 
         } catch (SQLException ex) {
@@ -93,7 +95,7 @@ public class EmprestimoDAO {
     private Emprestimo mapearEmprestimo(ResultSet rs) throws SQLException {
         Emprestimo e = new Emprestimo();
 
-        e.setId(rs.getInt("id"));
+        e.setId(rs.getInt("id_emprestimo"));
 
         Usuario u = new Usuario();
         u.setId(rs.getInt("id_usuario"));

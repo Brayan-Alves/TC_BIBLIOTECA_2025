@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.sql.Statement;
 
 import ifpr.edu.br.biblioteca.model.Livro;
 import ifpr.edu.br.biblioteca.model.Autor;
@@ -18,13 +19,17 @@ public class LivroDAO {
         String sql = "INSERT INTO livro (titulo, ano, id_editora) VALUES (?, ?, ?)";
 
         try (Connection con = ConnectionFactory.getConnection();
-                PreparedStatement stmt = con.prepareStatement(sql)) {
+                PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, livro.getTitulo());
             stmt.setInt(2, livro.getAno());
             stmt.setInt(3, livro.getEditora().getId());
-
             stmt.executeUpdate();
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    livro.setId(rs.getInt(1));
+                }
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao salvar livro");

@@ -18,14 +18,16 @@ import ifpr.edu.br.biblioteca.model.Emprestimo;
 import ifpr.edu.br.biblioteca.model.Autor;
 import ifpr.edu.br.biblioteca.model.Editora;
 
+
 public class Main {
+    
     public static Scanner LER = new Scanner(System.in);
 
     public static void main(String[] args) {
         iniciarControllers();
         while (true) {
             imprimirCabecalho();
-            int x = LER.nextInt();
+            int x = lerInteiro();
             if (x == 1) {
                 criarConta();
             } else if (x == 2) {
@@ -36,7 +38,7 @@ public class Main {
             } else if (x == 3) {
                 limparTerminal();
                 System.out.print("Digite a senha de administrador: ");
-                x = LER.nextInt();
+                x = lerInteiro();
                 if (x == 1234) {
                     limparTerminal();
                     System.out.println("Acesso de administrador concedido!");
@@ -47,11 +49,15 @@ public class Main {
                     System.out.println("Senha incorreta!");
                     esperar2Segundos();
                 }
-            } else {
+            } else if(x == 4) {
                 limparTerminal();
                 System.out.println("Finalizando...");
                 esperar2Segundos();
                 System.exit(0);
+            }else{
+                limparTerminal();
+                System.out.println("Opção inválida!");
+                esperar2Segundos();
             }
 
         }
@@ -62,8 +68,9 @@ public class Main {
         limparTerminal();
         System.out.println("Bem-vindo, Administrador!\n");
         System.out.println(
-                "O que deseja fazer?\n\n1.Gerenciar Autores\n2.Gerenciar Editoras\n3.Gerenciar Livros\n4.Gerenciar Usuários\n\n5.Logout");
-        int x = LER.nextInt();
+                "O que deseja fazer?\n\n1.Gerenciar Autores\n2.Gerenciar Editoras\n3.Gerenciar Livros\n4.Gerenciar Usuários\n\n5.Logout");     
+        int x = lerInteiro();
+        
         limparTerminal();
         switch (x) {
             case 1:
@@ -71,7 +78,7 @@ public class Main {
                 System.out.println("Gerenciar Autores\n");
                 System.out
                         .println("1.Cadastrar Autor\n2.Listar Autores\n3.Atualizar Autor\n4.Excluir Autor\n\n5.Voltar");
-                int k = LER.nextInt();
+                int k = lerInteiro();
                 limparTerminal();
                 switch (k) {
                     case 1:
@@ -108,7 +115,7 @@ public class Main {
                             System.out.println("ID: " + autor.getId() + " | Nome: " + autor.getNome());
                         }
                         System.out.print("ID do Autor a ser atualizado: ");
-                        int idAtualizar = LER.nextInt();
+                        int idAtualizar = lerInteiro();
                         limparBuffer();
                         System.out.print("Novo nome do Autor: ");
                         String novoNome = LER.nextLine();
@@ -125,7 +132,7 @@ public class Main {
                             System.out.println("ID: " + autor.getId() + " | Nome: " + autor.getNome());
                         }
                         System.out.print("ID do Autor a ser excluído: ");
-                        int idExcluir = LER.nextInt();
+                        int idExcluir = lerInteiro();
                         controllerAutor.excluirAutor(idExcluir);
                         limparTerminal();
                         System.out.println("Autor excluído com sucesso!");
@@ -151,7 +158,7 @@ public class Main {
                 System.out.println("Gerenciar Editoras\n");
                 System.out.println(
                         "1.Cadastrar Editora\n2.Listar Editoras\n3.Atualizar Editora\n4.Excluir Editora\n\n5.Voltar");
-                int j = LER.nextInt();
+                int j = lerInteiro();
                 switch (j) {
                     case 1:
                         limparTerminal();
@@ -185,7 +192,7 @@ public class Main {
                             System.out.println("ID: " + editora.getId() + " | Nome: " + editora.getNome());
                         }
                         System.out.print("ID da Editora a ser atualizada: ");
-                        int id = LER.nextInt();
+                        int id = lerInteiro();
                         limparBuffer();
                         System.out.print("Novo nome da Editora: ");
                         String nome = LER.nextLine();
@@ -201,7 +208,7 @@ public class Main {
                             System.out.println("ID: " + editora.getId() + " | Nome: " + editora.getNome());
                         }
                         System.out.println("ID da Editora a ser excluída: ");
-                        int idEx = LER.nextInt();
+                        int idEx = lerInteiro();
                         controllerEditora.excluirEditora(idEx);
                         limparTerminal();
                         System.out.println("Editora excluída com sucesso!");
@@ -226,7 +233,7 @@ public class Main {
                 System.out.println("Gerenciar Livros\n");
                 System.out
                         .println("1.Cadastrar Livro\n2.Listar Livros\n3.Atualizar Livro\n4.Excluir Livro\n\n5.Voltar");
-                int m = LER.nextInt();
+                int m = lerInteiro();
                 switch (m) {
                     case 1:
                         limparTerminal();
@@ -241,7 +248,7 @@ public class Main {
                         }
                         System.out.print("Digite o ID do Autor (ou 0 para finalizar): \n");
                         while (true) {
-                            int idAutor = LER.nextInt();
+                            int idAutor = lerInteiro();
                             if (idAutor == 0) {
                                 break;
                             }
@@ -261,7 +268,7 @@ public class Main {
                             System.out.println("ID: " + ed.getId() + " | Nome: " + ed.getNome());
                         }
                         System.out.print("ID da Editora: ");
-                        int idEditora = LER.nextInt();
+                        int idEditora = lerInteiro();
                         Editora editora = null;
                         for (Editora ed : controllerEditora.listarEditora()) {
                             if (ed.getId() == idEditora) {
@@ -321,7 +328,7 @@ public class Main {
                         }
                         System.out.print("Digite o ID do Autor (ou 0 para finalizar): \n");
                         while (true) {
-                            int idAutor = LER.nextInt();
+                            int idAutor = lerInteiro();
                             if (idAutor == 0) {
                                 break;
                             }
@@ -353,7 +360,7 @@ public class Main {
                                     + livro.getAno() + " | Editora: " + livro.getEditora().getNome());
                         }
                         System.out.println("ID do Livro a ser excluído: ");
-                        int idEx = LER.nextInt();
+                        int idEx = lerInteiro();
                         controllerLivro.deletarLivro(idEx);
                         limparTerminal();
                         System.out.println("Livro excluído com sucesso!");
@@ -376,7 +383,7 @@ public class Main {
                 System.out.println("Gerenciar Usuários\n");
                 System.out.println(
                         "1.Cadastrar Usuário\n2.Listar Usuários\n3.Atualizar Usuário\n4.Excluir Usuário\n\n5.Voltar");
-                int n = LER.nextInt();
+                int n = lerInteiro();
                 switch (n) {
                     case 1:
                         limparTerminal();
@@ -432,7 +439,7 @@ public class Main {
                         limparTerminal();
                         System.out.println("---- Excluir Usuário ----\n");
                         System.out.print("ID do Usuário a ser excluído: ");
-                        int idUsuEx = LER.nextInt();
+                        int idUsuEx = lerInteiro();
                         controllerUsuario.excluirUsuario(idUsuEx);
                         limparTerminal();
                         System.out.println("Usuário excluído com sucesso!");
@@ -469,10 +476,15 @@ public class Main {
         esperar2Segundos();
         System.out.println(
                 "\nO que deseja fazer?\n\n1.Ver livros disponíveis\n2.Ver meus empréstimos\n3.Fazer empréstimo\n4.Devolver livro\n5.Mudar Senha\n\n6.Logout");
-        int x = LER.nextInt();
+        int x = lerInteiro();
         switch (x) {
             case 1:
                 limparTerminal();
+                if (controllerLivro.listarTodos().isEmpty()) {
+                    System.out.println("Nenhum livro disponível no momento.");
+                    esperar2Segundos();
+                    break;
+                }
                 for (Livro livro : controllerLivro.listarTodos()) {
                     String nomesAutores = "";
                     for (int i = 0; i < livro.getAutores().size(); i++) {
@@ -491,7 +503,20 @@ public class Main {
                 LER.nextLine();
                 break;
             case 2:
+                limparTerminal();
+                if (controllerEmprestimo.listarEmprestimosPorUsuario(u.getId()).isEmpty()) {
+
+                    System.out.println("Nenhum empréstimo feito até o momento.");
+                    esperar2Segundos();
+                    break;
+                }
                 for (Emprestimo emp : controllerEmprestimo.listarEmprestimosPorUsuario(u.getId())) {
+                    for (Livro l : controllerLivro.listarTodos()) {
+                        if(l.getId() == emp.getLivro().getId()) {
+                            emp.setLivro(l);
+                            break;
+                        }
+                    }
                     System.out.println("Empréstimo ID: " + emp.getId() + " | Livro: " + emp.getLivro().getTitulo()
                             + " | Data Empréstimo: " + emp.getDataEmprestimo() + " | Data Devolução: "
                             + emp.getDataDevolucao() + " | Devolvido: " + (emp.isDevolvido() ? "Sim" : "Não"));
@@ -501,6 +526,12 @@ public class Main {
                 LER.nextLine();
                 break;
             case 3:
+                limparTerminal();
+                if (controllerLivro.listarTodos().isEmpty()) {
+                    System.out.println("Nenhum livro disponível para empréstimo no momento.");
+                    esperar2Segundos();
+                    break;
+                }
                 Emprestimo emp = new Emprestimo();
                 emp.setUsuario(u);
                 for (Livro livro : controllerLivro.listarTodos()) {
@@ -517,11 +548,7 @@ public class Main {
                             + livro.getAno() + " | Editora: " + livro.getEditora().getNome());
                 }
                 System.out.println("Digite o ID do livro que deseja emprestar:");
-                List<Livro> livros = controllerLivro.listarTodos();
-                for (Livro livro : livros) {
-                    System.out.println("ID: " + livro.getId() + " | Título: " + livro.getTitulo());
-                }
-                int idLivro = LER.nextInt();
+                int idLivro = lerInteiro();
                 Livro livroSelecionado = null;
                 for (Livro livro : controllerLivro.listarTodos()) {
                     if (livro.getId() == idLivro) {
@@ -532,18 +559,39 @@ public class Main {
                 emp.setLivro(livroSelecionado);
                 emp.setDataEmprestimo(Date.valueOf(LocalDate.now()));
                 emp.setDevolvido(false);
+                emp.setDataDevolucao(Date.valueOf(LocalDate.now().plusDays(7)));
+                controllerEmprestimo.registrarEmprestimo(emp);
+                limparTerminal();
+                System.out.print("Empréstimo realizado com sucesso!\nPrazo de devolução em 7 dias.\n");
+                esperar2Segundos();
+                esperar2Segundos();
                 break;
             case 4:
+                limparTerminal();
+                if(controllerEmprestimo.listarEmprestimosPorUsuario(u.getId()).isEmpty()) {
+                    System.out.println("Você não possui empréstimos para devolver.");
+                    esperar2Segundos();
+                    break;
+                }
                 List<Emprestimo> emprestimosUsuario = controllerEmprestimo.listarEmprestimosPorUsuario(u.getId());
                 System.out.println("Seus empréstimos:");
                 for (Emprestimo emprestimo : emprestimosUsuario) {
+                    for (Livro l : controllerLivro.listarTodos()) {
+                        if(l.getId() == emprestimo.getLivro().getId()) {
+                            emprestimo.setLivro(l);
+                            break;
+                        }
+                    }
                     System.out.println(
                             "ID Empréstimo: " + emprestimo.getId() + " | Livro: " + emprestimo.getLivro().getTitulo()
                                     + " | Devolvido: " + (emprestimo.isDevolvido() ? "Sim" : "Não"));
                 }
                 System.out.println("Digite o ID do empréstimo que deseja devolver:");
-                int idEmprestimo = LER.nextInt();
-                controllerEmprestimo.devolverEmprestimo(idEmprestimo, LocalDate.now());
+                int idEmprestimo = lerInteiro();
+                controllerEmprestimo.devolverEmprestimo(idEmprestimo);
+                limparTerminal();
+                System.out.println("Livro devolvido com sucesso!");
+                esperar2Segundos();
                 break;
             case 5:
                 limparTerminal();
@@ -624,6 +672,18 @@ public class Main {
                 "\nBem-Vindo(a) \n\nO que deseja?\n\n1.Criar Conta\n2.Login\n3.Entrar como Administrador\n\n4.Sair\n");
     }
 
+    public static int lerInteiro() {
+        int x = 0;
+        while (true) {
+            try {
+                x = Integer.parseInt(LER.next());
+                return x;
+            } catch (Exception e) {
+                System.out.println("Digite um número válido!");
+            }
+        }
+    }
+
     public static void limparTerminal() {
         for (int i = 0; i < 50; ++i) {
             System.out.println();
@@ -658,4 +718,8 @@ public class Main {
     static LivroAutorController controllerLivroAutor;
     static LivroController controllerLivro;
     static UsuarioController controllerUsuario;
+
+
+    
+
 }
