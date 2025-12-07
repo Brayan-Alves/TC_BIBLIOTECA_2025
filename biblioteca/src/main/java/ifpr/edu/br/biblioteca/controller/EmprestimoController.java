@@ -21,6 +21,10 @@ public class EmprestimoController {
         dao.marcarDevolvido(idEmprestimo);
     }
 
+    public List<Emprestimo> listarTodosEmprestimos() {
+        return dao.listarTodos();
+    }
+
     public List<Emprestimo> listarEmprestimosPorUsuario(int idUsuario) {
         return dao.listarPorUsuario(idUsuario);
     }

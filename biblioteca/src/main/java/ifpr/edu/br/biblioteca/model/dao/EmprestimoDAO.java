@@ -71,6 +71,7 @@ public class EmprestimoDAO {
         return lista;
     }
 
+
     public List<Emprestimo> listarPorUsuario(int idUsuario) {
         String sql = "SELECT * FROM emprestimo WHERE id_usuario = ?";
         List<Emprestimo> lista = new ArrayList<>();

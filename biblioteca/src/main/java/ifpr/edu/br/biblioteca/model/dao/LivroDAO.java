@@ -69,7 +69,11 @@ public class LivroDAO {
     }
 
     public List<Livro> listarTodos() {
-        String sql = "SELECT l.id_livro, l.titulo, l.ano, e.id_editora, e.nome AS nome_editora, a.id_autor, a.nome AS nome_autor FROM livro l JOIN editora e ON e.id_editora = l.id_editora LEFT JOIN autor_livro al ON al.id_livro = l.id_livro LEFT JOIN autor a ON a.id_autor = al.id_autor";
+        String sql = "SELECT l.id_livro, l.titulo, l.ano, e.id_editora, e.nome AS nome_editora, a.id_autor, a.nome AS nome_autor " + 
+                    "FROM livro l " + 
+                    "JOIN editora e ON e.id_editora = l.id_editora " + 
+                    "JOIN autor_livro al ON al.id_livro = l.id_livro " + 
+                    "JOIN autor a ON a.id_autor = al.id_autor";
 
         Map<Integer, Livro> mapaLivros = new LinkedHashMap<>();
 
